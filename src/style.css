@@ -1,0 +1,127 @@
+:root {
+  --primary-pink: #ffb6c1;
+  --bg-green: #a8d59d;
+  --font-main: 'Comic Sans MS', 'Quicksand', sans-serif;
+}
+
+body {
+  background-color: var(--bg-green);
+  font-family: var(--font-main);
+  text-align: center;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.view {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/* Toggles between views */
+.hidden {
+  display: none !important;
+}
+
+/* Inputs and Buttons[cite: 4] */
+input[type="text"], textarea, select {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid white;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: var(--font-main);
+}
+input[type="text"]:focus, textarea:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
+}
+button {
+  background-color: var(--primary-pink);
+  border: none;
+  padding: 15px 30px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: transform 0.2s;
+}
+button:hover {
+  transform: scale(1.1);
+}
+.notice {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+/* Animations[cite: 4] */
+.animated-title {
+  animation: bounce 2s infinite ease-in-out;
+}
+.win-animation {
+  animation: popAndVanish 1s alternate infinite;
+  color: #ff1493;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Memory Game Board & Cards */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+.card {
+  width: 100px;
+  height: 100px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.card-front {
+  background-color: white;
+  padding: 5px;
+}
+.card-back {
+  background-color: var(--primary-pink);
+  transform: rotateY(180deg);
+  font-size: 2rem;
+}
+.card.matched {
+  animation: popAndVanish 0.5s forwards;
+  pointer-events: none;
+}
+@keyframes popAndVanish {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
+}
