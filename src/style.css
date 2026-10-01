@@ -1,3 +1,4 @@
+/* Keep all your existing root, body, and animation CSS */
 :root {
   --primary-pink: #ffb6c1;
   --bg-green: #a8d59d;
@@ -21,24 +22,19 @@ body {
   border-radius: 20px;
 }
 
-/* Toggles between views */
-.hidden {
-  display: none !important;
+.wide-view {
+  max-width: 1200px; /* Wider view for the 3 columns */
 }
 
-/* Inputs and Buttons[cite: 4] */
+.hidden { display: none !important; }
+
 input[type="text"], textarea, select {
   width: 80%;
   padding: 10px;
   margin: 10px 0;
   border: 2px solid white;
   border-radius: 12px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   font-family: var(--font-main);
-}
-input[type="text"]:focus, textarea:focus {
-  transform: scale(1.02);
-  box-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
 }
 button {
   background-color: var(--primary-pink);
@@ -49,39 +45,80 @@ button {
   font-weight: bold;
   cursor: pointer;
   margin-top: 15px;
-  transition: transform 0.2s;
 }
-button:hover {
-  transform: scale(1.1);
-}
-.notice {
-  font-size: 0.8rem;
-  color: #555;
-}
+button:hover { transform: scale(1.1); }
 
-/* Animations[cite: 4] */
-.animated-title {
-  animation: bounce 2s infinite ease-in-out;
-}
-.win-animation {
-  animation: popAndVanish 1s alternate infinite;
-  color: #ff1493;
-}
+.animated-title { animation: bounce 2s infinite ease-in-out; }
+.win-animation { animation: popAndVanish 1s alternate infinite; color: #ff1493; }
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
-/* Memory Game Board & Cards */
+/* --- NEW 3-COLUMN LAYOUT --- */
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 20px;
+}
+.game-controls select {
+  width: auto;
+}
+
+.game-layout {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.message-column {
+  flex: 1;
+  max-height: 60vh;
+  overflow-y: auto; /* Infinite scroll */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.board-column {
+  flex: 2;
+  max-height: 60vh;
+  overflow-y: auto; /* Infinite scroll for infinite cards */
+  padding: 10px;
+}
+
+.revealed-message {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: left;
+  animation: popIn 0.4s ease-out forwards;
+}
+/* Change it to look exactly like this: */
+.revealed-message strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* --- GRID & CARDS --- */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 20px;
+  grid-template-columns: repeat(4, 1fr); /* Enforced 4 columns */
+  gap: 15px;
 }
+
 .card {
-  width: 100px;
-  height: 100px;
+  aspect-ratio: 1 / 1;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -92,9 +129,7 @@ button:hover {
   transition: transform 0.6s;
   transform-style: preserve-3d;
 }
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
+.card.flipped .card-inner { transform: rotateY(180deg); }
 .card-front, .card-back {
   position: absolute;
   width: 100%;
@@ -104,17 +139,20 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  word-break: break-word;
+  padding: 5px;
+  box-sizing: border-box;
 }
 .card-front {
   background-color: white;
-  padding: 5px;
+  font-weight: bold;
+  font-size: 1rem;
 }
 .card-back {
   background-color: var(--primary-pink);
   transform: rotateY(180deg);
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 .card.matched {
   animation: popAndVanish 0.5s forwards;
@@ -125,3 +163,72 @@ button:hover {
   50% { transform: scale(1.2); opacity: 1; }
   100% { transform: scale(0); opacity: 0; }
 }
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  /* Stack the columns vertically */
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Move the game board to the top */
+  .board-column {
+    width: 100%;
+    order: -1; 
+    max-height: unset; /* Allow the board to take the space it needs */
+  }
+
+  /* Make message columns full width */
+  .message-column {
+    width: 100%;
+    max-height: 40vh; 
+  }
+
+  /* Stack the timer and dropdown */
+  .game-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Adjust grid spacing and text for smaller screens */
+  .grid-container {
+    gap: 8px;
+  }
+  
+  .card-front {
+    font-size: 0.75rem; /* Slightly smaller text for long names */
+    padding: 2px;
+  }
+  
+  .card-back {
+    font-size: 2rem;
+  }
+
+  /* Scale down headers */
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Ensure inputs don't overflow */
+  input[type="text"], textarea, select {
+    width: 90%;
+  }
+}
+/* --- NAME COLORS --- */
+.text-green-mantis { color: #74C365; }
+.text-peach-c2 { color: #FFCBA4; }
+.text-white-effie { 
+  color: #FFFFFF; 
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Shadow to see white on a white box */
+}
+.text-orange-darwin { color: #FF8C00; }
+.text-brown-amy { color: #8B4513; }
+.text-red-hisoka { color: #DC143C; }
+.text-black-chrollo-lucifer { color: #000000; }
+.text-blue-killua { color: #87CEFA; }
+.text-yellow-c2 { color: #FFD700; }

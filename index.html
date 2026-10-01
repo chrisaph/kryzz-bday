@@ -9,46 +9,71 @@
   <body>
     <div id="app">
       
-      <!-- VIEW 1: HOMEPAGE[cite: 1, 4] -->
+      <!-- VIEW 1: HOMEPAGE -->
       <div id="home-view" class="view">
         <h1>Birthday Messages to Kryzz</h1>
         <h2>Who are you?</h2>
-        <input type="text" id="name-input" placeholder="Name pls" />
+        <!-- Limit name to 12 chars -->
+        <input type="text" id="name-input" placeholder="Name pls" maxlength="12" />
         
         <p class="notice">You can only enter your name and message once</p>
         
-        <textarea id="message-input" placeholder="Enter your lovely greetings here"></textarea>
+        <!-- Limit message to 1000 chars -->
+        <textarea id="message-input" placeholder="Enter your lovely greetings here" maxlength="1000"></textarea>
         
         <select id="design-select">
-          <option value="style1">Pink Sparkle</option>
-          <option value="style2">Green Mint</option>
+<option value="green-mantis">Green Mantis</option>
+          <option value="peach-c2">Peach C2</option>
+          <option value="white-effie">White Effie</option>
+          <option value="orange-darwin">Orange Darwin</option>
+          <option value="brown-amy">Brown Amy</option>
+          <option value="red-hisoka">Red Hisoka</option>
+          <option value="black-chrollo-lucifer">Black Chrollo Lucifer</option>
+          <option value="blue-killua">Blue Killua</option>
+          <option value="yellow-c2">Yellow C2</option>
         </select>
         
         <button id="submit-btn">Greet Kryzz!</button>
       </div>
 
-      <!-- VIEW 2: GAME PAGE[cite: 2, 4] -->
-      <div id="game-view" class="view hidden">
+      <!-- VIEW 2: GAME PAGE -->
+      <div id="game-view" class="view wide-view hidden">
         <h1>Birthday Messages to Kryzz</h1>
         <h2 class="animated-title">Find the same favorite thing Kryzz likes!</h2>
-        <p>Click the messages!</p>
-        <p>Time: <span id="timer-display">0</span>s</p>
         
-        <div id="game-board" class="grid-container">
-          <!-- Cards will be generated here by TypeScript -->
+        <div class="game-controls">
+          <p>Time: <span id="timer-display">0</span>s</p>
+          <select id="card-count-select">
+            <option value="16">16 Cards</option>
+            <option value="32">32 Cards</option>
+            <option value="all">All Cards</option>
+          </select>
+        </div>
+        
+        <div class="game-layout">
+          <!-- Left revealed messages -->
+          <div id="left-messages" class="message-column"></div>
+          
+          <!-- Center scrollable card grid -->
+          <div class="board-column">
+            <div id="game-board" class="grid-container">
+              <!-- Cards dynamically generated here -->
+            </div>
+          </div>
+          
+          <!-- Right revealed messages -->
+          <div id="right-messages" class="message-column"></div>
         </div>
       </div>
 
-      <!-- VIEW 3: WIN SCREEN[cite: 3, 4] -->
+      <!-- VIEW 3: WIN SCREEN -->
       <div id="win-view" class="view hidden">
         <h1>Birthday Messages to Kryzz</h1>
         <h2 class="win-animation">You Won!</h2>
         <p id="final-time-display">Your Time is 0:00 minutes</p>
         
         <h3>Leaderboard</h3>
-        <ol id="leaderboard-list">
-          <!-- Leaderboard times will appear here -->
-        </ol>
+        <ol id="leaderboard-list"></ol>
         
         <button id="play-again-btn">Play again?</button>
       </div>
